@@ -1,27 +1,48 @@
-# Project 02 Evidence Checklist
+# Project 02 — Implementation Evidence
 
-This folder is reserved for genuine screenshots that document the Containerized CI/CD Pipeline. 
+This folder documents the **Containerized CI/CD Pipeline** through genuine screenshots captured during implementation. The GitHub Actions workflow runs automated tests, builds a Docker image, and publishes image tags to GitHub Container Registry (GHCR) and Amazon Elastic Container Registry (ECR). GitHub OIDC is used for AWS authentication without storing long-lived AWS access keys.
 
-## Verified online evidence
+[Back to the project README](../README.md) · [Verified successful workflow run](https://github.com/fhyxx/pelumi-containerized-cicd/actions/runs/39781843020)
 
-- [Successful GitHub Actions run](https://github.com/fhyxx/pelumi-containerized-cicd/actions/runs/39781843020)
-- [Repository](https://github.com/fhyxx/pelumi-containerized-cicd)
-- [Project README](../README.md)
+## 01 — Successful GitHub Actions workflow
 
-## Screenshots to capture
+![Screenshot of the successful GitHub Actions workflow](01-github-actions-success.png)
 
-Save the screenshots in this folder using these filenames:
+*Evidence of the CI/CD workflow run and its successful completion.* [View image](01-github-actions-success.png) · [Open the verified run](https://github.com/fhyxx/pelumi-containerized-cicd/actions/runs/39781843020)
 
-1. `01-github-actions-success.png` — GitHub Actions run showing the successful workflow and completed publish steps.
-2. `02-automated-tests.png` — test output showing all three automated tests passing. The Actions job summary or terminal output is suitable.
-3. `03-ecr-image-tags.png` — Amazon ECR repository `pelumi-containerized-cicd` in `us-east-1`, showing the `latest` and commit-SHA image tags.
-4. `04-github-oidc-role.png` — IAM role trust relationship for GitHub OIDC. Keep the relevant provider and repository/branch restriction visible; do not include access keys, secrets, or other credentials.
-5. `05-local-container-running.png` — browser showing the app running locally in a Docker container, such as `http://localhost:3001`.
-6. `06-ghcr-package.png` *(optional)* — the published GitHub Container Registry package and its tags.
+## 02 — Automated tests
 
-## Evidence notes
+![Screenshot of automated test results](02-automated-tests.png)
 
-- Crop screenshots to the relevant console or browser area and keep text readable.
-- Never include passwords, tokens, access keys, session credentials, or private repository secrets.
-- Do not launch ECS, Fargate, NAT Gateway, or other paid infrastructure just to obtain screenshots. The current evidence can be captured without deploying a long-running AWS workload.
-- Once screenshots are added, link each one here with a short caption describing what it proves.
+*Evidence of the automated test stage. The project has three automated tests.* [View image](02-automated-tests.png)
+
+## 03 — Amazon ECR image tags
+
+![Screenshot of the Amazon ECR repository and image tags](03-ecr-image-tags.png)
+
+*Amazon ECR private repository `pelumi-containerized-cicd` in `us-east-1`, with a `latest` tag and commit-SHA image tags. This screenshot was visually reviewed.* [View image](03-ecr-image-tags.png)
+
+## 04 — GitHub OIDC IAM role
+
+![Screenshot of the GitHub OIDC IAM role trust relationship](04-github-oidc-role.png)
+
+*Documents the AWS IAM role used for GitHub Actions OIDC authentication and the intended repository/branch trust restriction.* [View image](04-github-oidc-role.png)
+
+## 05 — Local Docker container
+
+![Screenshot of the application running locally in Docker](05-local-container-running.png)
+
+*Documents the containerized application running locally, served on port 3001 of the host.* [View image](05-local-container-running.png)
+
+## 06 — GitHub Container Registry package (optional)
+
+![Screenshot of the published GHCR package](06-ghcr-package.png)
+
+*Additional evidence of the container image published to GitHub Container Registry.* [View image](06-ghcr-package.png)
+
+## Verification and security notes
+
+- All six screenshot files are present in this folder. The ECR screenshot was visually reviewed; the other images are linked as uploaded and their contents have not been independently visually inspected here.
+- The [successful workflow run](https://github.com/fhyxx/pelumi-containerized-cicd/actions/runs/39781843020) was independently checked through GitHub workflow metadata.
+- Do not include passwords, tokens, access keys, session credentials, or repository secrets in screenshots.
+- This project demonstrates build, test, and registry publishing. It does **not** claim an ECS/Fargate deployment. No NAT Gateway or long-running paid AWS workload is required to reproduce this evidence.
