@@ -1,6 +1,6 @@
 # Project 02 Evidence Checklist
 
-This folder is reserved for genuine screenshots that document the Containerized CI/CD Pipeline. Do not add fabricated or recreated screenshots; capture the actual GitHub, AWS Console, and local application views.
+This folder is reserved for genuine screenshots that document the Containerized CI/CD Pipeline. 
 
 ## Verified online evidence
 
