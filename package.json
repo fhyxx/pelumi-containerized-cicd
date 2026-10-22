@@ -1,0 +1,25 @@
+{
+  "name": "pelumi-containerized-cicd",
+  "version": "1.0.0",
+  "description": "Containerized CI/CD pipeline portfolio project using Node.js, Docker, and AWS",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "aws",
+    "docker",
+    "cicd",
+    "nodejs"
+  ],
+  "author": "Pelumi Oke",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.3.1"
+  }
+}
