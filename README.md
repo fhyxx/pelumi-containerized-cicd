@@ -2,13 +2,13 @@
 
 **Author:** Pelumi Oke  
 **Project:** AWS Portfolio — Project 02  
-**Status:** CI/CD pipeline successfully tested
+**Status:** Implemented and verified
 
-## Overview
+## Project Overview
 
-This project demonstrates how to package a Node.js application into a Docker container, automatically test it with GitHub Actions, and publish container images to GitHub Container Registry (GHCR) and Amazon Elastic Container Registry (Amazon ECR).
+I built a containerized Node.js application and configured GitHub Actions to test it, build a Docker image, and publish versioned images to GitHub Container Registry (GHCR) and Amazon Elastic Container Registry (Amazon ECR).
 
-The pipeline uses GitHub Actions OpenID Connect (OIDC) to obtain temporary AWS credentials, avoiding long-lived AWS access keys stored in GitHub.
+I configured GitHub OpenID Connect (OIDC) so the workflow could assume an AWS IAM role and receive temporary credentials, avoiding long-lived AWS access keys in GitHub.
 
 ## Architecture
 
@@ -42,7 +42,7 @@ Developer pushes code to GitHub
                              Registry (GHCR)
 ```
 
-Pull requests targeting `main` run the tests and Docker build. Publishing occurs only after a push to `main`.
+The workflow was configured to run tests and build the Docker image for pull requests targeting `main`. It published images only after pushes to `main`.
 
 ## Technology Stack
 
@@ -54,22 +54,22 @@ Pull requests targeting `main` run the tests and Docker build. Publishing occurs
 - **AWS authentication:** IAM OIDC identity provider and IAM role
 - **AWS Region:** `us-east-1`
 
-## Features
+## What I Implemented
 
-- Automated dependency installation and testing
-- Docker image build as part of the CI pipeline
-- Publication to Amazon ECR and GHCR
-- `latest` and commit-SHA image tags for traceability
-- AWS authentication through temporary OIDC credentials
-- IAM permissions scoped to the Project 02 ECR repository
-- No permanent AWS access keys stored in GitHub
-- Pull requests do not publish images
+- Configured automated dependency installation and testing.
+- Added Docker image building to the CI workflow.
+- Configured publishing to Amazon ECR and GHCR.
+- Published images with `latest` and full commit-SHA tags for traceability.
+- Configured AWS authentication through temporary OIDC credentials.
+- Scoped the IAM permissions to the Project 02 ECR repository, with the required account-level authorization-token permission.
+- Avoided storing permanent AWS access keys in GitHub.
+- Restricted publishing steps to pushes to `main`.
 
-## Application
+## Application and Tests
 
 The Express application serves a simple web page on port `3000`.
 
-Automated tests verify that:
+I added three automated tests to verify that:
 1. The home route responds successfully.
 2. The page contains the expected project heading.
 3. The page identifies the author.
@@ -107,11 +107,11 @@ docker run --rm -p 3001:3000 pelumi-containerized-cicd
 
 Then open http://localhost:3001.
 
-## Container Images
+## Published Container Images
 
 ### GitHub Container Registry
 
-The published GHCR image is:
+The workflow published the image to:
 
 `ghcr.io/fhyxx/pelumi-containerized-cicd:latest`
 
@@ -126,9 +126,8 @@ Open http://localhost:3001.
 
 ### Amazon ECR
 
-The private ECR repository is named `pelumi-containerized-cicd` in `us-east-1`.
+I created the private ECR repository `pelumi-containerized-cicd` in `us-east-1`. The workflow published these tags:
 
-The workflow publishes two tags:
 - `latest`
 - The full Git commit SHA
 
@@ -144,44 +143,45 @@ Amazon ECR is private by default. Pulling from it requires AWS authentication an
 
 Workflow file: `.github/workflows/ci.yml`
 
-On pushes to `main`, the workflow:
-1. Checks out the repository.
-2. Sets up Node.js.
-3. Installs dependencies with `npm ci`.
-4. Runs the automated tests.
-5. Builds the Docker image.
-6. Authenticates to GHCR.
-7. Assumes the configured AWS IAM role using GitHub OIDC.
-8. Authenticates to Amazon ECR.
-9. Pushes the image to both registries using `latest` and commit-SHA tags.
+I configured the workflow to:
 
-On pull requests targeting `main`, the workflow runs the tests and builds the image without publishing it.
+1. Check out the repository.
+2. Set up Node.js.
+3. Install dependencies with `npm ci`.
+4. Run the automated tests.
+5. Build the Docker image.
+6. Authenticate to GHCR.
+7. Assume the configured AWS IAM role using GitHub OIDC.
+8. Authenticate to Amazon ECR.
+9. Push the image to both registries using `latest` and commit-SHA tags.
+
+On pull requests targeting `main`, the workflow runs tests and builds the image without publishing it. On pushes to `main`, it also publishes the images.
 
 ## AWS Security Design
 
-GitHub Actions assumes the IAM role `GitHubActions-PelumiContainerizedCICD` through the configured OIDC identity provider.
+I configured GitHub Actions to assume the IAM role `GitHubActions-PelumiContainerizedCICD` through the GitHub OIDC identity provider.
 
-The role's trust policy restricts assumption to the intended repository and `main` branch subject. The attached IAM policy grants the ECR permissions required by this project.
+The role's trust policy restricts access to the intended repository and `main` branch subject. The attached IAM policy grants the ECR permissions needed to publish images to this project's repository.
 
-The workflow uses the repository variable `AWS_ROLE_ARN` to reference the role. No permanent AWS access keys are required.
+I stored the role ARN in the GitHub repository variable `AWS_ROLE_ARN`. The workflow does not require permanent AWS access keys.
 
 ## Cost Considerations
 
-This project uses Amazon ECR for container image storage. Storage and data transfer charges may apply depending on usage and applicable AWS allowances.
+The project uses Amazon ECR for container image storage. Storage and data transfer charges may apply depending on usage and applicable AWS allowances.
 
-This project does not require an ECS cluster, Fargate service, NAT Gateway, or continuously running EC2 instance. Those deployment components are outside the current project scope.
+I did not include an ECS cluster, Fargate service, NAT Gateway, or continuously running EC2 instance in this project. Those deployment components remain outside the current scope, keeping the implementation focused on testing, containerization, and registry publishing.
 
 Review AWS Billing and Cost Management periodically.
 
 ## Evidence
 
-See the [evidence checklist](evidence/README.md) for the verified workflow link and the genuine screenshots planned for the project portfolio.
+I uploaded implementation screenshots to the [evidence gallery](evidence/README.md), including the successful workflow, automated tests, ECR image tags, OIDC role, local container, and GHCR package.
 
 ## Verification
 
-The GitHub Actions workflow completed successfully, including automated tests, Docker image build, AWS OIDC authentication, ECR authentication, and publishing to both container registries.
+The [successful GitHub Actions run](https://github.com/fhyxx/pelumi-containerized-cicd/actions/runs/39781843020) completed the automated tests, Docker image build, AWS OIDC authentication, ECR authentication, and image publishing to both container registries.
 
-[View the successful GitHub Actions run](https://github.com/fhyxx/pelumi-containerized-cicd/actions/runs/39781843020)
+The ECR repository screenshot also showed the published image tags.
 
 ## Repository
 
