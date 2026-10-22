@@ -173,6 +173,10 @@ This project does not require an ECS cluster, Fargate service, NAT Gateway, or c
 
 Review AWS Billing and Cost Management periodically.
 
+## Evidence
+
+See the [evidence checklist](evidence/README.md) for the verified workflow link and the genuine screenshots planned for the project portfolio.
+
 ## Verification
 
 The GitHub Actions workflow completed successfully, including automated tests, Docker image build, AWS OIDC authentication, ECR authentication, and publishing to both container registries.
