@@ -1,0 +1,29 @@
+{
+  "family": "pelumi-project02-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::008151431773:role/PelumiProject02ECSTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "pelumi-app",
+      "image": "REPLACED_BY_GITHUB_ACTIONS",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/pelumi-project02",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
