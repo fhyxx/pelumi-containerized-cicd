@@ -69,8 +69,3 @@ On 3 November 2026, AWS CLI checks confirmed:
 
 The ECS task health field returned `UNKNOWN` because no container health check is configured. Do not describe this as a passing ECS container health check.
 
-## Security and evidence handling
-
-- Do not include passwords, access keys, session credentials, tokens, or repository secrets in screenshots.
-- The demo currently uses a public inbound TCP 3000 security-group rule for direct validation. Restrict or remove this rule when public access is no longer required.
-- The task public IP is ephemeral and may change when ECS replaces the task.
