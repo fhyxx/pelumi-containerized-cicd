@@ -2,7 +2,7 @@
 
 This folder contains screenshots documenting the **Containerized CI/CD Pipeline and ECS Fargate deployment**. The workflow tests the Node.js application, builds a Docker image, publishes it to Amazon ECR and GitHub Container Registry (GHCR), and deploys the commit-specific ECR image to Amazon ECS using GitHub OIDC.
 
-[Back to the project README](../README.md) · [Open successful ECS deployment run #41638589404](https://github.com/fhyxx/pelumi-containerized-cicd/actions/runs/41638589404)
+[Back to the project README](../README.md) · [Open successful ECS deployment run #41639511999](https://github.com/fhyxx/pelumi-containerized-cicd/actions/runs/41639511999)
 
 ## Existing implementation evidence
 
@@ -42,9 +42,9 @@ Documents the application running locally in Docker. [View image](05-local-conta
 
 Documents the published GHCR package. [View image](06-ghcr-package.png)
 
-## ECS deployment evidence to add
+## Additional ECS screenshots to capture
 
-Capture and add the following screenshots after deployment verification:
+The deployment has been verified through GitHub Actions and AWS CLI. The following console screenshots have not yet been added to this evidence gallery:
 
 | Suggested filename | What it should prove |
 |---|---|
@@ -68,4 +68,6 @@ On 3 November 2026, AWS CLI checks confirmed:
 - A direct HTTP request to the task public IP on TCP port 3000 returned **HTTP 200** with the expected Project 02 HTML.
 
 The ECS task health field returned `UNKNOWN` because no container health check is configured. Do not describe this as a passing ECS container health check.
+
+After the deployment test, the service was scaled down. Cleanup verification confirmed desired tasks: 0; running tasks: 0; pending tasks: 0. The temporary public inbound TCP 3000 security-group rule was removed.
 
