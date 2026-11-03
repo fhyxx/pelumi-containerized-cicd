@@ -33,10 +33,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build \\
-            -t ghcr.io/${{ github.repository }}:latest \\
-            -t ghcr.io/${{ github.repository }}:${{ github.sha }} \\
-            .
+          docker build -t ghcr.io/${{ github.repository }}:latest -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
 
       - name: Log in to GitHub Container Registry
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
