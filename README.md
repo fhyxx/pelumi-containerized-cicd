@@ -2,7 +2,7 @@
 
 **Author:** Pelumi Oke  
 **Project:** AWS Portfolio — Project 02  
-**Status:** Implemented and deployment verified
+**Status:** Deployment tested and verified; service scaled down after testing
 
 ## Project Overview
 
@@ -51,7 +51,7 @@ container port 3000)
 CloudWatch Logs
 ```
 
-The ECS service runs in public subnets in the existing Project 01 VPC. The Fargate task receives a public IP so it can pull its image from ECR and serve the demo application without a NAT Gateway. This is a cost-conscious portfolio demonstration, not a production reference architecture.
+During deployment verification, the ECS service ran in public subnets in the existing Project 01 VPC. The Fargate task received a public IP, allowing it to pull its image from ECR and serve the demo application without a NAT Gateway. After verification, the service was scaled down to zero tasks as part of cost-control cleanup. This is a cost-conscious portfolio demonstration, not a production reference architecture.
 
 ## Technology Stack
 
@@ -140,13 +140,13 @@ The service uses the existing public subnets `10.0.1.0/24` and `10.0.2.0/24`. No
 - The task execution role is `PelumiProject02ECSTaskExecutionRole`; it allows ECS to pull the private ECR image and write container logs.
 - The GitHub repository variable `AWS_ROLE_ARN` contains the role ARN. No permanent AWS access keys are required.
 
-**Security limitation:** the demo security group currently permits inbound TCP 3000 from `0.0.0.0/0` so the application can be tested directly. This broad rule is temporary and must be restricted or removed when the public demo is not in use. A production design should normally place tasks behind an Application Load Balancer, use HTTPS, and keep application tasks private.
+**Security and cleanup:** during the deployment test, the demo security group temporarily allowed inbound TCP 3000 from `0.0.0.0/0` for direct application access. That inbound rule was removed after testing. No public ECS task is currently running. If the demo is redeployed for direct public testing, restrict the source CIDR and remove the rule again when testing is complete. A production design should normally place tasks behind an Application Load Balancer, use HTTPS, and keep application tasks private.
 
 ## Verification
 
-The GitHub Actions run on 3 November 2026 completed successfully:
+The GitHub Actions deployment run on 3 November 2026 completed successfully:
 
-[Open successful deployment run #41638589404](https://github.com/fhyxx/pelumi-containerized-cicd/actions/runs/41638589404)
+[Open successful ECS deployment run #41639511999](https://github.com/fhyxx/pelumi-containerized-cicd/actions/runs/41639511999)
 
 The deployment was independently verified from the AWS CLI:
 - ECS service status: `ACTIVE`.
@@ -157,7 +157,9 @@ The deployment was independently verified from the AWS CLI:
 - Running container: `pelumi-app`.
 - Direct HTTP request to the task public IP on port 3000 returned **HTTP 200** and the expected Project 02 HTML response.
 
-The ECS task/container health field was reported as `UNKNOWN` because no container health check is defined in the task definition. The successful HTTP response and ECS steady state are the current application-level verification evidence; they should not be represented as an ECS container health-check result.
+The ECS task/container health field was reported as `UNKNOWN` because no container health check is defined in the task definition. The successful HTTP response and ECS steady state are the deployment-time application verification evidence; they should not be represented as an ECS container health-check result.
+
+After deployment verification, the ECS service was scaled down. A subsequent AWS CLI check confirmed desired tasks: 0; running tasks: 0; pending tasks: 0. The public inbound TCP 3000 security-group rule was also removed during cleanup. The application is therefore not currently running as a public ECS task.
 
 ## Published Container Images
 
@@ -177,7 +179,7 @@ The workflow also publishes the full commit-SHA tag to GHCR.
 
 Fargate tasks incur charges while running, and ECR storage, CloudWatch Logs, and data transfer may also incur charges. This demo is configured with one small Fargate task and no NAT Gateway or load balancer.
 
-When the public demo is not needed, set the ECS service desired count to zero to stop task compute charges. To deploy and serve the app again, restore desired count to one. Note that the current GitHub deployment workflow updates the task definition but does not automatically scale a service from zero to one.
+The ECS service is currently scaled to a desired count of zero, and cleanup verification confirmed that no tasks remain running. To serve the app again, restore the desired count to one. The GitHub deployment workflow updates the task definition but does not automatically scale a service from zero to one.
 
 Review AWS Billing and Cost Management after testing.
 
