@@ -3,8 +3,26 @@ name: Project 02 CI/CD
 on:
   push:
     branches: ["main"]
+    paths:
+      - "app.js"
+      - "app.test.js"
+      - "package.json"
+      - "package-lock.json"
+      - "Dockerfile"
+      - ".dockerignore"
+      - "ecs-task-definition.json"
+      - ".github/workflows/ci.yml"
   pull_request:
     branches: ["main"]
+    paths:
+      - "app.js"
+      - "app.test.js"
+      - "package.json"
+      - "package-lock.json"
+      - "Dockerfile"
+      - ".dockerignore"
+      - "ecs-task-definition.json"
+      - ".github/workflows/ci.yml"
 
 permissions:
   contents: read
