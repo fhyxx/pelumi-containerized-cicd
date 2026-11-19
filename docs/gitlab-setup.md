@@ -23,11 +23,11 @@ The build and deploy jobs use Docker-in-Docker with TLS enabled. Do not disable 
 | Stage | Job | Purpose |
 |---|---|---|
 | Validate | `validate` | Node syntax checks, production dependency audit |
-| Test | `unit_tests` | Install dependencies and execute Node test suite |
+| Test | `unit_tests` | Install dependencies, execute Node tests, and publish JUnit results |
 | Security | `semgrep_sast` | Static analysis with Semgrep's Node.js rules |
 | Security | `secret_detection` | Detect committed secrets with Gitleaks |
 | Package | `build_and_publish` | Build and push immutable commit-SHA and latest images to GitLab Container Registry |
-| Security | `container_scan` | Scan the published image with Trivy |
+| Security | `container_scan` | Scan the published image with Trivy and retain a CycloneDX SBOM |
 | Deploy | `deploy_to_aws` | Manually approve AWS ECS deployment using GitLab OIDC |
 
 The AWS deployment job is intentionally manual and only appears on the default branch when the deployment role variable is configured.
