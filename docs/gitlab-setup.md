@@ -45,6 +45,7 @@ Configure these as project or group CI/CD variables. Mark sensitive values as pr
 | `ECS_SERVICE` | `pelumi-project02-service` |
 | `ECS_TASK_FAMILY` | `pelumi-project02-task` |
 | `ECS_CONTAINER_NAME` | `pelumi-app` |
+| `ECS_DESIRED_COUNT` | `1` for a live smoke test; set to `0` to keep the service stopped |
 
 Do not define `AWS_ACCESS_KEY_ID` or `AWS_SECRET_ACCESS_KEY`. Authentication uses the short-lived GitLab OIDC token and AWS STS.
 
@@ -71,3 +72,8 @@ Do not define `AWS_ACCESS_KEY_ID` or `AWS_SECRET_ACCESS_KEY`. Authentication use
 Run the pipeline without AWS variables first. Validate stages through container scanning. Then configure the OIDC role and AWS variables, run the default-branch pipeline, and inspect the manual deployment job before approving it.
 
 No AWS resources are created by importing the repository or running the non-deployment pipeline stages.
+
+
+### AWS cost warning
+
+The existing Project 02 ECS service was previously scaled to zero tasks. Setting `ECS_DESIRED_COUNT=1` starts a Fargate task and can incur compute, networking, logging, and image-storage charges. Only approve the manual deployment when you are ready to run the task. After the smoke test, set the service desired count back to `0` and verify that no tasks remain running. A desired count of `0` updates the task definition but does not validate a running application.
