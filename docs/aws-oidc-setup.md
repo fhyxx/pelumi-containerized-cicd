@@ -39,7 +39,9 @@ Example trust policy (replace placeholders before use):
       "Condition": {
         "StringEquals": {
           "gitlab.com:aud": "sts.amazonaws.com",
-          "gitlab.com:sub": "project_path:<GITLAB_NAMESPACE>/pelumi-containerized-cicd:ref_type:branch:ref:main"
+          "gitlab.com:sub": "project_path:<GITLAB_NAMESPACE>/pelumi-containerized-cicd:ref_type:branch:ref:main",
+          "gitlab.com:namespace_id": "<GITLAB_NAMESPACE_ID>",
+          "gitlab.com:project_id": "<GITLAB_PROJECT_ID>"
         }
       }
     }
@@ -47,7 +49,7 @@ Example trust policy (replace placeholders before use):
 }
 ```
 
-The exact subject format depends on GitLab's token claims and project configuration. Inspect a safely decoded, non-secret token claim set or GitLab's documentation before applying the condition. Never paste a live OIDC token into tickets, chat, logs, or a public repository.
+Replace both stable numeric ID placeholders with the actual GitLab namespace and project IDs. GitLab.com supports these additional AWS condition keys; they protect the trust relationship against project or namespace renames. The exact subject format depends on GitLab's token claims and project configuration. Inspect a safely decoded, non-secret token claim set or GitLab's documentation before applying the condition. Never paste a live OIDC token into tickets, chat, logs, or a public repository.
 
 ## 3. Attach least-privilege permissions
 
