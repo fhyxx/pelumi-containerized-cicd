@@ -203,6 +203,7 @@ A GitLab CI/CD implementation is available on the `feat/gitlab-devsecops` branch
 
 The GitLab pipeline and setup guides are:
 - [GitLab CI pipeline](.gitlab-ci.yml)
+- [GitLab DevSecOps architecture diagram](docs/architecture.md)
 - [GitLab project and runner setup](docs/gitlab-setup.md)
 - [AWS OIDC deployment setup](docs/aws-oidc-setup.md)
 - [DevSecOps security model and limitations](docs/security-model.md)
