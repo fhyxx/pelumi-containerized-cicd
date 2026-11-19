@@ -6,13 +6,14 @@ flowchart TD
     GL --> PIPE[GitLab CI Pipeline]
     PIPE --> VAL[Validate<br/>Node syntax + npm audit]
     VAL --> TEST[Unit Tests<br/>Node test runner + JUnit]
-    TEST --> SAST[Semgrep SAST]
-    TEST --> GIT[Gitleaks secret detection]
-    SAST --> BUILD[Docker build]
-    GIT --> BUILD
+    TEST --> BUILD[Docker build]
     BUILD --> REG[GitLab Container Registry<br/>Commit-SHA image tag]
+    BUILD --> SAST[Semgrep SAST]
+    BUILD --> GIT[Gitleaks secret detection]
     REG --> TRIVY[Trivy image scan<br/>CycloneDX SBOM]
-    TRIVY --> APPROVE{Manual deployment approval}
+    SAST --> APPROVE{Manual deployment approval}
+    GIT --> APPROVE
+    TRIVY --> APPROVE
     APPROVE -->|OIDC ID token| STS[AWS STS]
     STS --> ROLE[IAM deployment role<br/>Project + branch trust conditions]
     ROLE --> ECR[Amazon ECR]
