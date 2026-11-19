@@ -134,7 +134,7 @@ deploy_to_aws:
     - jq --arg image "$DEPLOY_IMAGE" --arg container "$ECS_CONTAINER_NAME" '.containerDefinitions |= map(if .name == $container then .image = $image else . end) | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy, .deregisteredAt)' task-definition-current.json > task-definition-register.json
     - aws ecs register-task-definition --cli-input-json file://task-definition-register.json > task-definition-registered.json
     - export TASK_DEFINITION_ARN="$(jq -r '.taskDefinition.taskDefinitionArn' task-definition-registered.json)"
-    - aws ecs update-service --cluster "$ECS_CLUSTER" --service "$ECS_SERVICE" --task-definition "$TASK_DEFINITION_ARN" > /dev/null
+    - aws ecs update-service --cluster "$ECS_CLUSTER" --service "$ECS_SERVICE" --task-definition "$TASK_DEFINITION_ARN" --desired-count "$ECS_DESIRED_COUNT" > /dev/null
     - aws ecs wait services-stable --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE"
     - echo "Deployment completed with task definition $TASK_DEFINITION_ARN"
   environment:
