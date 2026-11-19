@@ -195,3 +195,16 @@ See the [implementation evidence gallery](evidence/README.md) for the CI workflo
 
 **Pelumi Oke**  
 Cloud Engineering | AWS Solutions Architecture | DevOps and Automation
+
+
+## GitLab DevSecOps Extension
+
+A GitLab CI/CD implementation is available on the `feat/gitlab-devsecops` branch. It adds a parallel delivery path using GitLab CI, Semgrep, Gitleaks, Trivy, GitLab Container Registry, GitLab OIDC, Amazon ECR, and Amazon ECS.
+
+The GitLab pipeline and setup guides are:
+- [GitLab CI pipeline](.gitlab-ci.yml)
+- [GitLab project and runner setup](docs/gitlab-setup.md)
+- [AWS OIDC deployment setup](docs/aws-oidc-setup.md)
+- [DevSecOps security model and limitations](docs/security-model.md)
+
+The GitLab extension is intentionally kept on a separate branch so the existing, verified GitHub Actions implementation on `main` remains unchanged. The AWS deployment job is manual and requires a separately configured, least-privilege IAM role trusted for the GitLab OIDC subject. No AWS resources or IAM permissions are changed by this repository update.
