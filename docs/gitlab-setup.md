@@ -12,6 +12,26 @@ This repository extends Project 02 with a GitLab CI/CD implementation. The exist
 
 Suggested branch to import from GitHub: `feat/gitlab-devsecops`.
 
+
+## 1A. Push the prepared branch from Windows PowerShell
+
+Create the GitLab project as a **blank project**. Do not initialize it with a README, license, or `.gitignore`; this avoids unrelated initial-commit conflicts.
+
+Then run:
+
+```powershell
+git clone https://github.com/fhyxx/pelumi-containerized-cicd.git
+Set-Location pelumi-containerized-cicd
+git fetch origin
+git checkout feat/gitlab-devsecops
+git remote add gitlab https://gitlab.com/<YOUR_GITLAB_NAMESPACE>/pelumi-containerized-cicd.git
+git push -u gitlab HEAD:main
+```
+
+Replace `<YOUR_GITLAB_NAMESPACE>` with your GitLab username or group path. The GitLab project will receive the prepared branch as its `main` branch. The original GitHub `main` branch remains unchanged.
+
+After the push, open **Build > Pipelines** in GitLab. The first pipeline should run validation, tests, build, and security jobs. The AWS deployment job remains hidden until `AWS_DEPLOY_ROLE_ARN` is configured.
+
 ## 2. Enable a runner
 
 The pipeline uses Docker-in-Docker for building and publishing the application image. Use a GitLab-hosted runner that supports Docker-in-Docker or a properly configured self-managed runner with privileged Docker service support.
